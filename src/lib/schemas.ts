@@ -14,3 +14,8 @@ export const registerSchema = z.object({
       message: "Las contraseñas deben coincidir..",
       path: ["confirmPassword"], // Esto especifica dónde se muestra el mensaje de error
     })  
+
+export const loginSchema = z.object({
+  email: z.string().email(),
+  password: z.string()
+})
