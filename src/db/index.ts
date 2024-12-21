@@ -8,19 +8,18 @@ let pg:ReturnType<typeof postgres>
 let database:PostgresJsDatabase<typeof schema>
 
 const databaseURL = process.env.DATABASE_URL
-console.log(databaseURL)
-console.log(process.env.NODE_ENV)
 if(!databaseURL) throw new Error('There must be provided a database url')
 
-if(process.env.NODE_ENV === 'production'){
-    pg = postgres(databaseURL)
-    database = drizzle(pg,{schema})
-}else{
-    if (!(global as any).database!) {
+    if (process.env.NODE_ENV === "production") {
         pg = postgres(databaseURL);
-        (global as any).database = drizzle(pg, { schema });
+        database = drizzle(pg, { schema });
+      } else {
+        if (!(global as any).database!) {
+          pg = postgres(databaseURL);
+          (global as any).database = drizzle(pg, { schema });
+        }
+        database = (global as any).database;
       }
-      database = (global as any).database;
-}
-
-export { pg,database}
+      
+      export { database, pg };
+      

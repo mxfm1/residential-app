@@ -9,12 +9,14 @@ import { Mail,Lock } from "lucide-react"
 import { useServerAction } from "zsa-react"
 import { registerAction } from "./actions"
 
+// TASKS
+// Crear un loading state para mostrar al usuario el estado del login
+
 export default function RegisterPage(){
 
-    const {execute} = useServerAction(registerAction)
+    const {execute,isPending,error} = useServerAction(registerAction)
 
     const registerFormSubmit = (data: registerFormType) => {
-        console.log("CLIENT DATA ", data)
         execute(data);
     }
     return (
@@ -33,15 +35,19 @@ export default function RegisterPage(){
                             },
                             resolver: zodResolver(registerSchema)
                         }}
-                        buttonLabel="Registrate.."
-                        >
+                        buttonLabel="Registrate..">
                         <div className="flex gap-2">
                             <CustomFormInput label="Nombre" name="name" type="string" />
                             <CustomFormInput label="Apellido" name="lastName" type="string" />
                         </div>
                         <CustomFormInput label="Correo" name="email" type="email" icon={Mail}/>
                         <CustomFormInput label="Contraseña" name="password" type="password" icon={Lock}/>
-                        <CustomFormInput label="Confirma Contraseña" name="confirmPassword" type="password" />
+                        <CustomFormInput label="Confirma Contraseña" name="confirmPassword" type="password" icon={Lock}/>
+                            {error && (
+                                <div className="flex items-center justify-center">
+                                    <p className="text-red-500">{error.message}</p>
+                                </div>
+                            )}
                     </FormComponent>
                 </div>
             </div>

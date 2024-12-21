@@ -3,3 +3,10 @@ export class PublicError extends Error{
         super(message) 
     }
 }
+
+export class LoginError extends PublicError{
+    constructor(){
+        super("Correo o contraseña inválidos")
+        this.name="Login Error"
+    }
+}

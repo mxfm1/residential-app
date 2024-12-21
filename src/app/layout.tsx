@@ -1,6 +1,11 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import NavbarWrapper from "@/components/navbar/navbar-wrapper";
+import { ThemeProvider } from "@/components/theme-provider";
+import { Navbar } from "@/components/navbar/navbar";
+import { AuthModalProvider } from "@/context/auth-modal";
+import AuthModal from "@/components/modal/auth-modal";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -26,9 +31,21 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-[#56494C]`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange>
+            <Navbar
+              appName="Fides-lms"
+            />
+            <AuthModalProvider>
+              {children}
+              <AuthModal />
+            </AuthModalProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

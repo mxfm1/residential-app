@@ -12,3 +12,5 @@ async function main(){
         await pg.end()
     }
 }
+
+main()

@@ -5,13 +5,20 @@ import FormComponent from "@/components/form/form";
 import { loginSchema } from "@/lib/schemas";
 import { Mail } from "lucide-react";
 import { z } from "zod";
+import { useServerAction } from "zsa-react";
+import { userLoginAction } from "./actions";
 
-type LoginFormType = z.infer <typeof loginSchema>
+export type LoginFormType = z.infer <typeof loginSchema>
 
 export default function LoginPage(){
+
+    const {execute,isPending,error} = useServerAction(userLoginAction)
+
+
     const handleLoginForm = (data:LoginFormType) => {
-        console.log("LOGIN FORM DATA",data)
+        execute(data)
     }
+
     return (
         <div>
             <div>
@@ -26,6 +33,11 @@ export default function LoginPage(){
                     <CustomFormInput name="email" label="email" type="email" icon={Mail}/>
                     <CustomFormInput name="password" label="password" type="password" />
                 </FormComponent>
+                {error && (
+                    <div className="flex items-center justify-center">
+                        <p className="text-red-500">{error.message}</p>
+                    </div>
+                )}
             </div>
         </div>
     )

@@ -12,10 +12,10 @@ export const registerSchema = z.object({
     (data) => data.password === data.confirmPassword,
     {
       message: "Las contraseñas deben coincidir..",
-      path: ["confirmPassword"], // Esto especifica dónde se muestra el mensaje de error
+      path: ["confirmPassword"],
     })  
 
 export const loginSchema = z.object({
-  email: z.string().email(),
+  email: z.string().email({message:"Email inválido.."}),
   password: z.string()
 })
