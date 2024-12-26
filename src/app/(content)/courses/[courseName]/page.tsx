@@ -18,7 +18,6 @@ export default async function CoursePage({params}:CoursePageProps){
     console.log("Resolved Params:", resolvedParams.courseName);
 
     const newCourseParam = ((await params).courseName)
-    console.log(newCourseParam)
 
     return (
         <div className="relative h-screen">
