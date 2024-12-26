@@ -1,6 +1,6 @@
 import crypto from 'crypto'
 import { encodeBase32LowerCaseNoPadding, encodeHexLowerCase} from '@oslojs/encoding'
-import { Session, sessions, user, User } from '@/db/schema';
+import { Session, sessions, users, User } from '@/db/schema';
 import { sha256 } from '@oslojs/crypto/sha2' 
 import { database } from '@/db';
 import { eq } from 'drizzle-orm';
@@ -50,8 +50,8 @@ export async function validateSessionToken(
       await database.delete(sessions).where(eq(sessions.id, sessionInDb.id));
       return { session: null, user: null };
     }
-    const sessionUser = sessionInDb.userId ? await database.query.user.findFirst({
-        where: eq(user.id,sessionInDb.userId)
+    const sessionUser = sessionInDb.userId ? await database.query.users.findFirst({
+        where: eq(users.id,sessionInDb.userId)
     }) : null
   
     if (!sessionUser) {
@@ -79,7 +79,7 @@ export async function validateSessionToken(
   }
   
   export async function invalidateUserSessions(userId: number): Promise<void> {
-    await database.delete(sessions).where(eq(user.id, userId));
+    await database.delete(sessions).where(eq(users.id, userId));
   }
 
 export type SessionValidationResult = 

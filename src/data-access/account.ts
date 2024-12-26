@@ -1,5 +1,5 @@
 import { database } from '@/db';
-import { account } from '@/db/schema';
+import { accounts } from '@/db/schema';
 import crypto from 'crypto'
 import { eq } from 'drizzle-orm';
 
@@ -24,7 +24,7 @@ export async function passwordHashing(plainTextPassword:string,salt:string){
 export const createAccount = async(userId:number,password:string) => {
     const salt = crypto.randomBytes(128).toString("base64");
     const hashedPassword = await passwordHashing(password,salt)
-    const [createdAccount] = await database.insert(account).values({
+    const [createdAccount] = await database.insert(accounts).values({
         userId,
         accountType:"email",
         password: hashedPassword,
@@ -36,8 +36,8 @@ export const createAccount = async(userId:number,password:string) => {
 
 
 export const getUserAccountById = async(userId:number) => {
-    const userAccount = await database.query.account.findFirst({
-        where: eq(account.userId,userId)
+    const userAccount = await database.query.accounts.findFirst({
+        where: eq(accounts.userId,userId)
     })
 
     return userAccount

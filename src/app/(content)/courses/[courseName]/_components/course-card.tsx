@@ -16,9 +16,7 @@ export default function CourseDescriptionCard({isAuth}:CourseDescriptionCardProp
     const{isOpen,setIsOpen} =useAuthModal()
 
     const handleCourseStart = () => {
-        console.log("isAuth",isAuth)
         if(!isAuth){
-            console.log("DENTRO DE CVALIDACION",isOpen)
             setIsOpen(true)
         }
     }

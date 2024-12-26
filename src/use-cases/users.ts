@@ -30,3 +30,9 @@ export const loginUserUseCase = async(email:string,password:string) => {
 
     return { id: existingUser.id };
 }
+
+// IMAGES   
+export const getProfileImageUrl = (userId:number,imageId:string) => {
+    // configurar la funcion para hitear un api endpoint con la url de la imagen
+    return "somestring"
+}

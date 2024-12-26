@@ -1,12 +1,16 @@
 'use server'
 
-import { CalendarRange, Database, Mail, User } from "lucide-react"
+import { Database, Mail, User } from "lucide-react"
 import NavbarWrapper from "./navbar-wrapper"
 import { ThemeToggleComponent } from "../theme-toggle-component"
-import { NavbarLinks } from "./navbar.link";
 import { getCurrentUser } from "@/lib/session";
 import { Button } from "../ui/button";
 import Link from "next/link";
+import ProfileAvatar from "../avatar/profile-avatar";
+import { Suspense } from "react";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "../ui/dropdown-menu";
+import NavbarProfileIcon from "./navbar-profile-icon";
+import { getUserProfileUseCase } from "@/use-cases/profile";
 
 type NavbarProps = {
     appName:string;
@@ -31,16 +35,14 @@ const Navbar = async({appName}:NavbarProps) => {
 async function NavbarHeaderActions(){
     const user = await getCurrentUser()
     const isLoggedIn = !!user
+
     return (
         <div>
             {isLoggedIn && (
-                <div className="flex">
+                <div className="flex items-center gap-8">
                     <ThemeToggleComponent />
-
-                    <Button className="bg-primary rounded-full">
-                        <User />
-                        {/* Aregar pfp y dropdwon */}
-                    </Button>
+                    
+                    <NavbarProfileIcon userId={user.id} userEmail={user.email}/>
                     <Button className="flex">
                         <Mail />
                     </Button>
